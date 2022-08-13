@@ -9,7 +9,7 @@ const HomePageMovies = () => {
 
     const location = useLocation();
 
-useEffect(() => {
+    useEffect(() => {
 
     fetchRes(KEY)
     .then(({results}) => setMovies([...results]))

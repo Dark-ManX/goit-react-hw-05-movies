@@ -8,6 +8,7 @@ import { ActorPhoto } from "./styledPages/Cast.styled";
 
 const Cast = () => {
 
+    
     const {movieId} = useParams();
     const [cast, setCast] = useState(null);
 

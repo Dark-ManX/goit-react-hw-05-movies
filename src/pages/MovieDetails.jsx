@@ -10,11 +10,12 @@ const MovieDetails = () => {
     const location = useLocation();
     const {movieId} = useParams();
     const [movie, setMovie] = useState(null);
+    
 console.log(movie);
+console.log(location);
     const handleGoBack = () => {
 
         if (location?.state?.from) {
-
             return navigate(location.state.from);
         }
 
@@ -22,7 +23,6 @@ console.log(movie);
     };
 
     useEffect(() => {
-        console.log(movieId);
         fetchMovie(movieId ,KEY)
         .then(res => setMovie(res))
     }, [movieId]);

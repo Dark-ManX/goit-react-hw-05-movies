@@ -16,6 +16,8 @@ const Movies = () => {
     const [query, setQuery] = useState('');
     const [result, setResult] = useState(searchParams.get('query') ?? null);
     const [request, setRequest] = useState(null); 
+    const [noMovies, setNoMovies] = useState(null);
+
 
     const reset = () => {
 
@@ -26,6 +28,7 @@ const Movies = () => {
 
         e.preventDefault();
         setResult(query);
+        console.log(location);
         setSearchParams({'query': query})
         reset();
     }
@@ -35,8 +38,14 @@ const Movies = () => {
         if (result) {
             fetchMovieByName(result, KEY)
             .then(res => {
-                setRequest(res.results)
-            })
+                if (res.results.length !== 0) {
+                    setNoMovies(null);
+                    return setRequest(res.results);
+                }
+
+                setNoMovies(res)
+                setRequest(null)})
+            .catch(error => console.log(error))
 
         }
 
@@ -50,9 +59,7 @@ const Movies = () => {
                     <button type="submit" >Search</button>
                 </form>
  
-            
             {request && (
-
                 <Suspense fallback={<TailSpin color="#00BFFF" height={80} width={80} />}>
                     <ul>
                         {request.map(({id, title}) => (               
@@ -61,9 +68,12 @@ const Movies = () => {
                             </MovieItem>
                         ))}
                     </ul>
-                
-                </Suspense>
-            )}  
+                </Suspense>)
+}
+
+            {noMovies && (<p>Sorry but we do not have such film</p>)}
+
+   
         </>
     )
 }
